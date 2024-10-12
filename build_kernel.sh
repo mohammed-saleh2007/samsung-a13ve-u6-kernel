@@ -14,6 +14,7 @@ make -C $(pwd) O=$(pwd)/out KCFLAGS=-w CONFIG_SECTION_MISMATCH_WARN_ONLY=y -j32
 
 cp out/arch/arm64/boot/Image $(pwd)/arch/arm64/boot/Image
 
+cp out/arch/arm64/boot/Image.gz $(pwd)/arch/arm64/boot/Image.gz
 
 # make anykernel zip
 cp $(pwd)/arch/arm64/boot/Image $(pwd)/anykernel/
