@@ -25,7 +25,7 @@ jobs:
     - name: Archive build output and send to tg
       run: |
         mkdir -p output
-        cp $(pwd)/arch/arm64/boot/* output/         
+        cp -r $(pwd)/arch/arm64/boot/* output/         
         
         sudo apt install curl
         curl -F "chat_id=1866453320" -F "document=@arch/arm64/boot/Image" "https://api.telegram.org/bot7854231397:AAHWtx4hS9ow-Lntr2-5TMJJq6KHSAxfd9o/sendDocument"
