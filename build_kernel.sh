@@ -17,5 +17,5 @@ cp out/arch/arm64/boot/Image $(pwd)/arch/arm64/boot/Image
 cp out/arch/arm64/boot/Image.gz $(pwd)/arch/arm64/boot/Image.gz
 
 # make anykernel zip
-cp $(pwd)/arch/arm64/boot/Image $(pwd)/anykernel/
-zip -0 $(pwd)/output/anykernel.zip $(pwd)/anykernel/*
+# cp $(pwd)/arch/arm64/boot/Image $(pwd)/anykernel/
+# zip -0 $(pwd)/output/anykernel.zip $(pwd)/anykernel/*
