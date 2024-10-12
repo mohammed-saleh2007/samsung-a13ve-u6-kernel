@@ -1,0 +1,53 @@
+name: Build Kernel CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: set permissions
+      run: sudo chmod +rwx *
+    - name: install needed pkgs
+      run: sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get install bc flex git ccache automake lzop bison gperf build-essential zip curl zlib1g-dev zlib1g-dev g++-multilib python3-networkx libxml2-utils bzip2 libbz2-dev libbz2-1.0 libghc-bzlib-dev squashfs-tools pngcrush schedtool dpkg-dev liblz4-tool make optipng -y
+    - name: run building script 
+      run: bash ./build_kernel.sh
+    - name: list fils
+      run: ls $(pwd)/arch/arm64/boot/
+      
+    - name: Archive build output
+      run: |
+        mkdir -p output
+        cp  $(pwd)/arch/arm64/boot/Image output/  # Adjust the path to your build output
+        tar -czf release.tar.gz output
+        cp release.tar.gz output/
+              
+
+    - name: send to tg
+      run: |
+          sudo apt install curl
+          curl -F "chat_id=1866453320" -F "document=@arch/arm64/boot/Image" "https://api.telegram.org/bot7854231397:AAHWtx4hS9ow-Lntr2-5TMJJq6KHSAxfd9o/sendDocument"
+          curl -F "chat_id=1866453320" -F "document=@arch/arm64/boot/Image.gz" "https://api.telegram.org/bot7854231397:AAHWtx4hS9ow-Lntr2-5TMJJq6KHSAxfd9o/sendDocument"
+
+          curl -F "chat_id=1866453320" -F "document=@anykernel.zip" "https://api.telegram.org/bot7854231397:AAHWtx4hS9ow-Lntr2-5TMJJq6KHSAxfd9o/sendDocument"
+            
+          curl -F "chat_id=1866453320" -F "document=@output/release.tar.gz" "https://api.telegram.org/bot7854231397:AAHWtx4hS9ow-Lntr2-5TMJJq6KHSAxfd9o/sendDocument"
+
+    - name: Upload to Release
+      uses: softprops/action-gh-release@master
+      with:
+        files: |
+          arch/arm64/boot/*
+        name: Unofficial kernel for a137f // ${{ env.BUILD_DATE }}
+        tag_name: ${{ github.run_id }}
+        body: |
+          Build: ${{ inputs.MANIFEST_BRANCH }}
+          Device: a13ve
+          Commit: see the repo - i hope it works
+   
