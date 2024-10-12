@@ -32,22 +32,22 @@ jobs:
         curl -F "chat_id=1866453320" -F "document=@arch/arm64/boot/Image.gz" "https://api.telegram.org/bot7854231397:AAHWtx4hS9ow-Lntr2-5TMJJq6KHSAxfd9o/sendDocument"
         
         cp $(pwd)/arch/arm64/boot/Image $(pwd)/anykernel/
-        zip -0 $(pwd)/output/anykernel.zip $(pwd)/anykernel/*
+        zip -0 output/anykernel.zip anykernel/*
         curl -F "chat_id=1866453320" -F "document=@output/anykernel.zip" "https://api.telegram.org/bot7854231397:AAHWtx4hS9ow-Lntr2-5TMJJq6KHSAxfd9o/sendDocument"
 
         tar -czf release.tar.gz output
         cp release.tar.gz output/
         curl -F "chat_id=1866453320" -F "document=@output/release.tar.gz" "https://api.telegram.org/bot7854231397:AAHWtx4hS9ow-Lntr2-5TMJJq6KHSAxfd9o/sendDocument"
         
-    - name: Upload to Release
-      uses: softprops/action-gh-release@master
-      with:
-        files: |
-          arch/arm64/boot/*
-        name: Unofficial kernel for a137f // ${{ env.BUILD_DATE }}
-        tag_name: ${{ github.run_id }}
-        body: |
-          Build: ${{ inputs.MANIFEST_BRANCH }}
-          Device: a13ve
-          Commit: see the repo - i hope it works
+    #- name: Upload to Release
+    #  uses: softprops/action-gh-release@master
+    #  with:
+    #    files: |
+    #      arch/arm64/boot/*
+    #    name: Unofficial kernel for a137f // ${{ env.BUILD_DATE }}
+    #    tag_name: ${{ github.run_id }}
+    #    body: |
+    #      Build: ${{ inputs.MANIFEST_BRANCH }}
+    #      Device: a13ve
+    #      Commit: see the repo - i hope it works
    
