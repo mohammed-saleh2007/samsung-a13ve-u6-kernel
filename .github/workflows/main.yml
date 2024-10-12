@@ -22,6 +22,7 @@ jobs:
       run: |
         ls $(pwd)/arch/arm64/boot/
         ls $(pwd)/output
+        ls $(pwd)/anykernel
       
     - name: Archive build output
       run: |
