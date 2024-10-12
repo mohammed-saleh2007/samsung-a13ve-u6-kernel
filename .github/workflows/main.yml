@@ -27,9 +27,12 @@ jobs:
     - name: Archive build output
       run: |
         mkdir -p output
-        cp  $(pwd)/arch/arm64/boot/Image output/  # Adjust the path to your build output
+        cp $(pwd)/arch/arm64/boot/Image output/ 
+        cp $(pwd)/arch/arm64/boot/Image.gz output/
         tar -czf release.tar.gz output
         cp release.tar.gz output/
+        cp $(pwd)/arch/arm64/boot/Image $(pwd)/anykernel/
+        zip -0 $(pwd)/output/anykernel.zip $(pwd)/anykernel/*
               
 
     - name: send to tg
