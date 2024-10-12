@@ -13,3 +13,8 @@ make -C $(pwd) O=$(pwd)/out KCFLAGS=-w CONFIG_SECTION_MISMATCH_WARN_ONLY=y a13ve
 make -C $(pwd) O=$(pwd)/out KCFLAGS=-w CONFIG_SECTION_MISMATCH_WARN_ONLY=y -j16
 
 cp out/arch/arm64/boot/Image $(pwd)/arch/arm64/boot/Image
+
+
+# make anykernel zip
+cp $(pwd)/arch/arm64/boot/Image $(pwd)/anykernel/
+zip -0 $(pwd)/output/anykernel.zip $(pwd)/anykernel/*
