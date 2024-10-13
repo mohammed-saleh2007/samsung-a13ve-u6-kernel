@@ -26,7 +26,7 @@ jobs:
        # install python 2
        pip install virtualenv
        export PATH=$PATH:$(pwd)/.local/bin
-       apt install python3-virtualenv
+       sudo apt install python3-virtualenv
        sudo apt install python2.7
        sudo apt install openssl
        sudo aptitude install libssl-dev
