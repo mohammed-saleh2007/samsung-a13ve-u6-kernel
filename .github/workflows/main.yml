@@ -24,13 +24,13 @@ jobs:
        sudo swapon /swapfile
        free -m
        # install python 2
-       pip install virtualenv
+       pip install virtualenv 
        export PATH=$PATH:$(pwd)/.local/bin
-       sudo apt install python3-virtualenv
-       sudo apt install python2.7
-       sudo apt install openssl
-       sudo aptitude install libssl-dev
-       sudo apt-get install libtinfo5
+       sudo apt install python3-virtualenv -y
+       sudo apt install python2.7 -y
+       sudo apt install openssl -y
+       sudo aptitude install libssl-dev -y
+       sudo apt-get install libtinfo5 -y
        # install repo
        mkdir -p ~/.bin
        PATH="${pwd}/.bin:${PATH}"
