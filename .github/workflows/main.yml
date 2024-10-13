@@ -19,7 +19,7 @@ jobs:
        sudo apt install python-is-python3 build-essential openssl pip -y
        # Inease linux swapfile size (works best on SSD)
        sudo swapoff -a
-       sudo dd if=/dev/zero of=/swapfile bs=1G count=8
+       sudo dd if=/dev/zero of=/swapfile bs=16G count=8
        sudo mkswap /swapfile
        sudo swapon /swapfile
        free -m
