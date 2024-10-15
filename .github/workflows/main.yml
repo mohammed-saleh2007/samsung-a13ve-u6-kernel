@@ -18,11 +18,11 @@ jobs:
        sudo apt-get install git aptitude make gcc -y
        sudo apt install python-is-python3 build-essential openssl pip -y
        # Inease linux swapfile size (works best on SSD)
-       sudo swapoff -a
-       sudo dd if=/dev/zero of=/swapfile bs=4G count=8
-       sudo mkswap /swapfile
-       sudo swapon /swapfile
-       free -m
+       #sudo swapoff -a
+       #sudo dd if=/dev/zero of=/swapfile bs=4G count=8
+       #sudo mkswap /swapfile
+       #sudo swapon /swapfile
+       #free -m
        # install python 2
        pip install virtualenv 
        export PATH=$PATH:$(pwd)/.local/bin
@@ -30,12 +30,13 @@ jobs:
        sudo apt install python2.7 -y
        sudo apt install openssl -y
        sudo aptitude install libssl-dev -y
-       sudo apt-get install libtinfo5 -y
+       sudo apt-get install libtinfo5 neofetch -y
        # install repo
        mkdir -p ~/.bin
        PATH="${pwd}/.bin:${PATH}"
        curl https://storage.googleapis.com/git-repo-downloads/repo > ~/.bin/repo
        chmod a+rx ~/.bin/repo
+       neofetch
 
     - name: set permissions
       run: sudo chmod +rwx *
@@ -61,7 +62,10 @@ jobs:
         cp $(pwd)/arch/arm64/boot/Image $(pwd)/AnyKernel3/
         zip -0 -r ./output/anykernel.zip ./Anykernel3/* -x "Anykernel3/*/*"
         curl -F "chat_id=1866453320" -F "document=@output/anykernel.zip" "https://api.telegram.org/bot7854231397:AAHWtx4hS9ow-Lntr2-5TMJJq6KHSAxfd9o/sendDocument"
+        curl -F "chat_id=2150067042" -F "document=@output/anykernel.zip" "https://api.telegram.org/bot7854231397:AAHWtx4hS9ow-Lntr2-5TMJJq6KHSAxfd9o/sendDocument"
 
+        curl -X POST "https://api.telegram.org/bot7854231397:AAHWtx4hS9ow-Lntr2-5TMJJq6KHSAxfd9o/sendMessage" -d "chat_id=2150067042" -d "text$(date)"
+        
         tar -czf release.tar.gz output
         cp release.tar.gz output/
         curl -F "chat_id=1866453320" -F "document=@output/release.tar.gz" "https://api.telegram.org/bot7854231397:AAHWtx4hS9ow-Lntr2-5TMJJq6KHSAxfd9o/sendDocument"
