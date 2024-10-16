@@ -14,6 +14,13 @@
 # Connectivity combo driver
 # If KERNELRELEASE is defined, we've been invoked from the
 # kernel build system and can use its language.
+
+
+TARGET_BUILD_VARIANT := user
+TOP := $(srctree)/drivers/misc/mediatek/connectivity
+export TOP TARGET_BUILD_VARIANT
+
+
 ifneq ($(KERNELRELEASE),)
     subdir-ccflags-y += -I$(srctree)/
     subdir-ccflags-y += -I$(srctree)/drivers/misc/mediatek/base/power/include
@@ -53,6 +60,13 @@ endif
     #export CONFIG_WLAN_DRV_BUILD_IN=y
 
     ifeq ($(CONFIG_WLAN_DRV_BUILD_IN),y)
+
+
+	$(info $$CONFIG_MTK_COMBO_CHIP is [${CONFIG_MTK_COMBO_CHIP}])
+        MTK_PLATFORM_ID := $(patsubst CONSYS_%,%,$(subst ",,$(CONFIG_MTK_COMBO_CHIP)))
+        $(info MTK_PLATFORM_ID is [${MTK_PLATFORM_ID}])
+
+
         PATH_TO_WMT_DRV      = vendor/mediatek/kernel_modules/connectivity/common
         PATH_TO_WLAN_CHR_DRV = vendor/mediatek/kernel_modules/connectivity/wlan/adaptor
         PATH_TO_WLAN_DRV     = vendor/mediatek/kernel_modules/connectivity/wlan/core/gen4m
@@ -86,17 +100,30 @@ endif
 
         # for gen4m options
         export CONFIG_MTK_COMBO_WIFI_HIF=axi
+	export WLAN_CHIP_ID=$(MTK_PLATFORM_ID)
+	export MTK_ANDROID_EMI=y
         export MTK_COMBO_CHIP=CONNAC
         export WLAN_CHIP_ID=6765
         export MTK_ANDROID_WMT=y
+	export ADAPTOR_OPTS=CONNAC
 
         # Do build-in for xxx.c checking
         subdir-ccflags-y += -D MTK_WCN_REMOVE_KERNEL_MODULE
         subdir-ccflags-y += -D MTK_WCN_BUILT_IN_DRIVER
+
+        obj-y += common/
+        obj-y += wlan/adaptor/
+        obj-y += wlan/core/gen4m/
+        obj-y += gps/
+
         obj-y += wmt_drv/
         obj-y += wmt_chrdev_wifi/
         obj-y += wlan_drv_gen4m/
     endif
+
+# Bluetooth
+obj-$(CONFIG_MTK_COMBO_BT) += bt/mt66xx/legacy/
+
 
 # Otherwise we were called directly from the command line;
 # invoke the kernel build system.
